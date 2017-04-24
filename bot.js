@@ -1,14 +1,38 @@
-var Twit = require('twit')
-console.log('Twitter bot server is starting!')
+var Twit = require('twit');
+const readline = require('readline');
 
-var T = new Twit({
-  consumer_key:         'Yj3SY8Q1e7ZaD6ls0iUJkYZq8',
-  consumer_secret:      'K2g9osqUZM1KmluVtniia3Jy9xl35cRYdQRakKMtO0FIPkB8m6',
-  access_token:         '856545441176985600-evmGHyJyrKaYm534jwY3LNkGo4ggdyA',
-  access_token_secret:  'nCkhvJHeXKpyYqu59q12H7nM7KMg41bA3bLGJ4LWlrVzG',
-  timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
-})
+console.log('Twitter bot server is starting!');
 
-T.post('statuses/update', { status: 'Hello, again!' }, function(err, data, response) {
-  console.log(data)
-})
+// Twit config
+var config = require('./config');
+var T = new Twit(config);
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.question('What is hapenning? ', (answer) => {
+    postTweet(answer);
+    rl.close();
+});
+
+function postTweet(text) {
+
+    var tweetText = text;
+
+    var myTweet = {
+        status: tweetText
+    }
+
+    var tweeted = function (err, data, response) {
+        if (err) {
+            console.log("Error, not posted!");
+        } else {
+            console.log("Tweet was posted!");
+        }
+    }
+
+    T.post('statuses/update', myTweet, tweeted);
+
+}
