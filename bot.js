@@ -27,9 +27,9 @@ function postTweet(text) {
 
     var tweeted = function (err, data, response) {
         if (err) {
-            console.log("Error, not posted!");
+            console.log("Error occurred, not poster.");
         } else {
-            console.log("Tweet was posted!");
+            console.log("Tweet was posted successfully!");
         }
     }
 
